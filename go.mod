@@ -1,4 +1,4 @@
-module exceltool
+module go-exceltool
 
 go 1.20
 
