@@ -1,4 +1,4 @@
-module exceltool
+module github.com/zhiminwen/xceltool
 
 go 1.20
 
