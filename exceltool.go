@@ -64,7 +64,7 @@ func (tool *ExcelTool) SetStyle(sheet string, cellRange string, style string) {
 	showRowStripes := true
 
 	try.E(tool.Excel.AddTable(sheet, cellRange, &excelize.TableOptions{
-		Name:              "table",
+		Name:              fmt.Sprintf("%s-table-%s", sheet, cellRange),
 		StyleName:         style,
 		ShowFirstColumn:   false,
 		ShowLastColumn:    false,
