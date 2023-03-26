@@ -14,6 +14,14 @@ type ExcelTool struct {
 	Excel    *excelize.File
 }
 
+// Create new one anyway
+func NewExcel(filename string) *ExcelTool {
+	return &ExcelTool{
+		FileName: filename,
+		Excel:    excelize.NewFile(),
+	}
+}
+
 func NewOrOpenExcel(filename string) *ExcelTool {
 	_, err := os.Stat(filename)
 	if os.IsNotExist(err) {
