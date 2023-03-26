@@ -62,6 +62,6 @@ func (tool *ExcelTool) Close() {
 	try.E(tool.Excel.Close())
 }
 
-func (tool *ExcelTool) NextColumn(header []string) string {
-	return fmt.Sprintf("%c", 'A'+len(header))
+func (tool *ExcelTool) LastColumn(header []string) string {
+	return fmt.Sprintf("%c", 'A'+len(header)-1)
 }
