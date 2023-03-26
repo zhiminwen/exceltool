@@ -2,6 +2,7 @@ package exceltool
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/dsnet/try"
@@ -13,16 +14,26 @@ type ExcelTool struct {
 	Excel    *excelize.File
 }
 
-func NewExcel(filename string) *ExcelTool {
+func NewOrOpenExcel(filename string) *ExcelTool {
+	_, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return &ExcelTool{
+			FileName: filename,
+			Excel:    excelize.NewFile(),
+		}
+	}
 	return &ExcelTool{
 		FileName: filename,
-		Excel:    excelize.NewFile(),
+		Excel:    try.E1(excelize.OpenFile(filename)),
 	}
+}
+
+func (tool *ExcelTool) DeleteDefaultSheet1() {
+	try.E(tool.Excel.DeleteSheet("Sheet1"))
 }
 
 func (tool *ExcelTool) AddSheet(name string) {
 	try.E1(tool.Excel.NewSheet(name))
-	try.E(tool.Excel.DeleteSheet("Sheet1")) //remove default after add
 }
 
 func (tool *ExcelTool) AddHeader(sheet string, header []string) {
