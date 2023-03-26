@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/dsnet/try"
 	"github.com/xuri/excelize/v2"
@@ -64,7 +65,7 @@ func (tool *ExcelTool) SetStyle(sheet string, cellRange string, style string) {
 	showRowStripes := true
 
 	try.E(tool.Excel.AddTable(sheet, cellRange, &excelize.TableOptions{
-		Name:              fmt.Sprintf("%s-table-%s", sheet, cellRange),
+		Name:              fmt.Sprintf("%s-table-%s", sheet, strings.ReplaceAll(cellRange, ":", "")),
 		StyleName:         style,
 		ShowFirstColumn:   false,
 		ShowLastColumn:    false,
