@@ -3,6 +3,7 @@ package exceltool
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -64,9 +65,13 @@ func (tool *ExcelTool) SetStyle(sheet string, cellRange string, style string) {
 	}
 	showRowStripes := true
 
+	tabName := fmt.Sprintf("tab-%s-%s", sheet, strings.ReplaceAll(cellRange, ":", ""))
+	reSpecialChar := regexp.MustCompile(`[^a-zA-Z0-9]`)
+	tabName = reSpecialChar.ReplaceAllString(tabName, "")
+
 	try.E(tool.Excel.AddTable(sheet, cellRange, &excelize.TableOptions{
 		//table name must be unique for all tables across the worksheets. So add sheet name to it
-		Name:              fmt.Sprintf("tab-%s-%s", sheet, strings.ReplaceAll(cellRange, ":", "")),
+		Name:              tabName,
 		StyleName:         style,
 		ShowFirstColumn:   false,
 		ShowLastColumn:    false,
